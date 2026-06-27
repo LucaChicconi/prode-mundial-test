@@ -38,6 +38,7 @@ function normalizeTeamName(teamName) {
     .toLowerCase()
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
+    .replace(/\s+/g, ' ')
     .trim()
 }
 
@@ -104,6 +105,9 @@ const teamFlagCodes = {
   'uruguay': 'uy',
   'colombia': 'co',
   panama: 'pa',
+  canada: 'ca',
+  'bosnia-herzegovina': 'ba',
+  'bosnia herzegovina': 'ba',
 }
 
 // Create a normalized-keys map so lookups work regardless of accents/casing

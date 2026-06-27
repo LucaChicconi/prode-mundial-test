@@ -50,6 +50,9 @@ const teamFlagCodes = {
   'uruguay': 'uy',
   'colombia': 'co',
   panama: 'pa',
+  canada: 'ca',
+  'bosnia-herzegovina': 'ba',
+  'bosnia herzegovina': 'ba',
 }
 
 function normalizeTeamName(teamName) {
@@ -57,6 +60,7 @@ function normalizeTeamName(teamName) {
     .toLowerCase()
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
+    .replace(/\s+/g, ' ')
     .trim()
 }
 
@@ -322,10 +326,17 @@ export default function Knockout() {
   }, [filteredMatches])
 
   function updatePred(matchId, field, value) {
-    setMyPredictions(p => ({
-      ...p,
-      [matchId]: { ...(p[matchId] || { home: 0, away: 0, homePenalties: null, awayPenalties: null }), [field]: value },
-    }))
+    setMyPredictions(p => {
+      const prev = p[matchId] || { home: 0, away: 0, homePenalties: null, awayPenalties: null }
+      const next = { ...prev, [field]: value }
+
+      if ((field === 'home' || field === 'away') && next.home !== next.away) {
+        next.homePenalties = null
+        next.awayPenalties = null
+      }
+
+      return { ...p, [matchId]: next }
+    })
   }
 
   function getMyPrediction(matchId) {
@@ -337,13 +348,14 @@ export default function Knockout() {
     if (!pred || !user || saved[matchId]) return
 
     setSaving(s => ({ ...s, [matchId]: true }))
+    const scoresEqual = pred.home === pred.away
     const { error } = await saveKnockoutPrediction(
       user.id,
       matchId,
       pred.home,
       pred.away,
-      pred.homePenalties,
-      pred.awayPenalties
+      scoresEqual ? pred.homePenalties : null,
+      scoresEqual ? pred.awayPenalties : null
     )
     setSaving(s => ({ ...s, [matchId]: false }))
 
@@ -464,22 +476,29 @@ export default function Knockout() {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-slate-400">Penales (opcional)</span>
-                <div className="flex items-center gap-1">
-                  <PenaltiesInput
-                    value={myPred.homePenalties}
-                    disabled={locked}
-                    onChange={val => updatePred(matchKey, 'homePenalties', val)}
-                  />
-                  <span className="text-slate-400">-</span>
-                  <PenaltiesInput
-                    value={myPred.awayPenalties}
-                    disabled={locked}
-                    onChange={val => updatePred(matchKey, 'awayPenalties', val)}
-                  />
-                </div>
-              </div>
+              {(() => {
+                const scoresEqual = myPred.home === myPred.away
+                return (
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-[10px] text-slate-400">
+                      {scoresEqual ? 'Penales' : 'Penales (solo si empatan)'}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <PenaltiesInput
+                        value={myPred.homePenalties}
+                        disabled={locked || !scoresEqual}
+                        onChange={val => updatePred(matchKey, 'homePenalties', val)}
+                      />
+                      <span className="text-slate-400">-</span>
+                      <PenaltiesInput
+                        value={myPred.awayPenalties}
+                        disabled={locked || !scoresEqual}
+                        onChange={val => updatePred(matchKey, 'awayPenalties', val)}
+                      />
+                    </div>
+                  </div>
+                )
+              })()}
 
               <button
                 disabled={locked || saving[matchKey]}
