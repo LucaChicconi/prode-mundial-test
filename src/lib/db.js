@@ -122,3 +122,49 @@ export async function saveElijoCreerSelection(userId, team, phase) {
     }, { onConflict: 'user_id', ignoreDuplicates: true })
     .select('user_id, team, phase, created_at, updated_at')
 }
+
+// --- KNOCKOUT ---
+export async function getKnockoutMatches() {
+  return supabase
+    .from('knockout_matches')
+    .select('*')
+    .order('match_time', { ascending: true })
+}
+
+export async function getMyKnockoutPredictions(userId) {
+  return supabase
+    .from('knockout_predictions')
+    .select('*')
+    .eq('user_id', userId)
+}
+
+export async function saveKnockoutPrediction(userId, matchId, homeScore, awayScore, homePenalties, awayPenalties) {
+  return supabase
+    .from('knockout_predictions')
+    .upsert({
+      user_id: userId,
+      match_id: matchId,
+      home_score_pred: homeScore,
+      away_score_pred: awayScore,
+      home_penalties_pred: homePenalties,
+      away_penalties_pred: awayPenalties,
+    }, { onConflict: 'user_id,match_id' })
+    .select('user_id, match_id, home_score_pred, away_score_pred, home_penalties_pred, away_penalties_pred')
+}
+
+export async function deleteKnockoutPrediction(userId, matchId) {
+  return supabase
+    .from('knockout_predictions')
+    .delete()
+    .eq('user_id', userId)
+    .eq('match_id', matchId)
+}
+
+export async function toggleKnockoutMatchLock(userId, matchId, locked) {
+  const admin = await isUserAdmin(userId)
+  if (!admin) return { error: { message: 'No autorizado' }, data: null }
+  return supabase
+    .from('knockout_matches')
+    .update({ locked })
+    .eq('match_id', matchId)
+}

@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Matches from './pages/Matches'
 import Ranking from './pages/Ranking'
 import ElijoCreer from './pages/ElijoCreer'
+import Knockout from './pages/Knockout'
 import Profile from './pages/Profile'
 import Footer from './components/Footer'
 
@@ -39,6 +40,9 @@ function Navbar() {
           <NavLink to="/partidos" className={linkClassName}>
             ⚽ Partidos
           </NavLink>
+          <NavLink to="/eliminatorias" className={linkClassName}>
+            🏅 Eliminatorias
+          </NavLink>
           <NavLink to="/ranking" className={linkClassName}>
             🏆 Ranking
           </NavLink>
@@ -57,15 +61,15 @@ function Navbar() {
           )}
         </div>
 
-        <p className="mt-2 text-center text-xs font-light tracking-[0.12em] text-slate-400">
-          P R O D E M U N D I A L 2 0 2 6
-        </p>
       </nav>
 
       <nav className="mx-auto hidden w-full max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 md:grid lg:px-8">
         <div className="flex items-center gap-2 justify-self-start">
           <NavLink to="/partidos" className={linkClassName}>
             ⚽ Partidos
+          </NavLink>
+          <NavLink to="/eliminatorias" className={linkClassName}>
+            🏅 Eliminatorias
           </NavLink>
           <NavLink to="/ranking" className={linkClassName}>
             🏆 Ranking
@@ -105,6 +109,7 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/partidos" element={<PrivateRoute><Matches /></PrivateRoute>} />
+              <Route path="/eliminatorias" element={<PrivateRoute><Knockout /></PrivateRoute>} />
               <Route path="/ranking" element={<PrivateRoute><Ranking /></PrivateRoute>} />
               <Route path="/elijo-creer" element={<PrivateRoute><ElijoCreer /></PrivateRoute>} />
               <Route path="/perfil" element={<PrivateRoute><Profile /></PrivateRoute>} />
