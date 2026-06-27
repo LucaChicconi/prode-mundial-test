@@ -79,10 +79,6 @@ function Navbar() {
           </NavLink>
         </div>
 
-        <p className="whitespace-nowrap text-center text-lg font-light text-slate-400">
-          P R O D E M U N D I A L  2 0 2 6
-        </p>
-
         <div className="justify-self-end">
           {!user ? (
             <NavLink to="/login" className={linkClassName({ isActive: false })}>
