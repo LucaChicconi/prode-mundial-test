@@ -75,27 +75,14 @@ export default function Ranking() {
       )}
 
       <div className={panelClass}>
-        <div className="mb-2 text-sm font-semibold text-slate-900">Posible batacazo</div>
-        <p className="text-sm leading-6 text-slate-500 break-words">
-          Si uno de los 15 equipos de ranking FIFA más bajo le empata o le gana a uno del top 10,
-          ese partido queda marcado como posible batacazo. Si lo acertás exacto,
-          sumás 5 puntos extra y entrás en &quot;Hoy la vieron&quot;.
-        </p>
-      </div>
+        <div className="mb-2 text-base font-semibold text-primary-900">¿Cómo se suman puntos?</div>
+        <p className="text-base leading-6 text-primary-500">
+          + 3 puntos por acertar el equipo ganador.<br />
+          + 6 por acertar los goles (sin contar penales).<br />
+          + 10 si acertás los penales.
 
-      <div className={panelClass}>
-        <div className="mb-3 text-sm font-semibold text-slate-900">Hoy la vieron</div>
-        {batacazoUsers.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {batacazoUsers.map(username => (
-              <span key={username} className={pillClass}>
-                {username}
-              </span>
-            ))}
-          </div>
-        ) : (
-          <p className="text-sm text-slate-500">Todavía nadie acertó un batacazo.</p>
-        )}
+          <p>No se acumulan, o sumás 3 o sumás 6 o sumás 10 por partido.</p>
+        </p>
       </div>
     </section>
   )
