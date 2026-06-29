@@ -23,7 +23,7 @@ export default function Login() {
     if (isRegister) {
       setError('Revisá tu email para confirmar la cuenta.')
     } else {
-      navigate('/partidos')
+      navigate('/eliminatorias')
     }
   }
 
