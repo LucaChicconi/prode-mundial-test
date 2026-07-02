@@ -1,0 +1,18 @@
+name: Lock Expired Matches
+
+on:
+  schedule:
+    - cron: '* * * * *'
+  workflow_dispatch:
+
+jobs:
+  lock-matches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lock expired matches
+        run: |
+          curl -X POST "${{ secrets.SUPABASE_URL }}/rest/v1/rpc/lock_expired_matches" \
+            -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{}'

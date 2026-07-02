@@ -168,3 +168,7 @@ export async function toggleKnockoutMatchLock(userId, matchId, locked) {
     .update({ locked })
     .eq('match_id', matchId)
 }
+
+export async function lockExpiredMatches() {
+  return supabase.rpc('lock_expired_matches')
+}
