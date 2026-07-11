@@ -94,6 +94,7 @@ const stageColors = {
   'Cuartos': '#8B5CF6',
   'Semifinal': '#F59E0B',
   'Final': '#EF4444',
+  'Tercer puesto': '#0EA5E9',
 }
 
 function getStageStyles(stage) {
@@ -299,7 +300,7 @@ export default function Knockout() {
   const stageOptions = useMemo(() => {
     const stages = Array.from(new Set(matches.map(m => m.stage)))
     return stages.sort((a, b) => {
-      const order = ['16avos', 'Octavos', 'Cuartos', 'Semifinal', 'Final']
+      const order = ['16avos', 'Octavos', 'Cuartos', 'Semifinal', 'Final', 'Tercer puesto']
       return order.indexOf(a) - order.indexOf(b)
     })
   }, [matches])
@@ -320,7 +321,7 @@ export default function Knockout() {
     return Object.entries(byStage)
       .map(([stage, items]) => ({ stage, items }))
       .sort((a, b) => {
-        const order = ['16avos', 'Octavos', 'Cuartos', 'Semifinal', 'Final']
+        const order = ['16avos', 'Octavos', 'Cuartos', 'Semifinal', 'Final', 'Tercer puesto']
         return order.indexOf(a.stage) - order.indexOf(b.stage)
       })
   }, [filteredMatches])
