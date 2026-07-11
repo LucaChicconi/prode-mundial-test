@@ -300,7 +300,7 @@ export default function Knockout() {
   const stageOptions = useMemo(() => {
     const stages = Array.from(new Set(matches.map(m => m.stage)))
     return stages.sort((a, b) => {
-      const order = ['16avos', 'Octavos', 'Cuartos', 'Semifinal', 'Final', 'Tercer puesto']
+      const order = ['Cuartos', 'Semifinal', 'Final', 'Tercer puesto','16avos', 'Octavos']
       return order.indexOf(a) - order.indexOf(b)
     })
   }, [matches])
@@ -321,7 +321,7 @@ export default function Knockout() {
     return Object.entries(byStage)
       .map(([stage, items]) => ({ stage, items }))
       .sort((a, b) => {
-        const order = ['16avos', 'Octavos', 'Cuartos', 'Semifinal', 'Final', 'Tercer puesto']
+        const order = ['Cuartos', 'Semifinal', 'Final', 'Tercer puesto','16avos', 'Octavos']
         return order.indexOf(a.stage) - order.indexOf(b.stage)
       })
   }, [filteredMatches])
