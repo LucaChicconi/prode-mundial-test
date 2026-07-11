@@ -33,6 +33,10 @@ values ('semifinal-1', 'Equipo A', 'Equipo B', '2026-07-10T18:00:00Z', 'Semifina
 insert into knockout_matches (match_id, home_team, away_team, match_time, stage)
 values ('final-1', 'Equipo A', 'Equipo B', '2026-07-14T18:00:00Z', 'Final');
 
+-- Tercer puesto
+insert into knockout_matches (match_id, home_team, away_team, match_time, stage)
+values ('tercer-puesto-1', 'Perdedor Semifinal 1', 'Perdedor Semifinal 2', '2026-07-18T21:00:00Z', 'Tercer puesto');
+
 -- =====================================================
 -- 2. CARGAR RESULTADO SIN PENALES
 -- =====================================================
